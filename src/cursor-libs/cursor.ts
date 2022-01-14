@@ -14,7 +14,9 @@ class Cursor{
     private lastCoor : [number, number];
     private transitionDuration: number;
 
-    private tick: number;
+    private allMagnet: HTMLElement[];
+    private magnetMode: [Function, Function] | null;
+
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
     //private lightMode: Function;
@@ -42,7 +44,6 @@ class Cursor{
         }
 
         this.lastCoor = [0, 0]
-        this.tick = 0
         this.movement = () =>{
             window.addEventListener("mousemove",(e)=>{
                 const x : number = e.clientX
@@ -50,7 +51,6 @@ class Cursor{
                 const distance : number = Math.abs(this.lastCoor[0] - x) + Math.abs(this.lastCoor[1] - y)
                 if(tickReduction){
                     if(distance > (this.height + this.width / 2)/2){
-                        this.tick++;
                         setTimeout(() =>{
                             this.lastCoor[0] = x
                             this.lastCoor[1] = y
@@ -70,6 +70,7 @@ class Cursor{
         this.init = () => {
             if(!enabledCursor) this.body.style.cursor = 'none'
             this.cursorEl.style.position = 'absolute'
+            this.cursorEl.style.pointerEvents = 'none'
             this.cursorEl.style.transition = `${this.transitionDuration}ms`
             this.squareMode()
             this.movement()
@@ -77,14 +78,34 @@ class Cursor{
             this.body.appendChild(this.cursorEl)
         }
 
+        this.allMagnet = body.querySelectorAll('.magnet-hover')
+        if(this.allMagnet.length >= 1){
+
+            console.log('magnet mouse initialiser')
+
+            const self = this
+            
+            const hover = () =>{
+                console.log('hoverThing')
+            }
+            const out = () =>{
+                console.log('outThing')
+            }
+            this.magnetMode = [
+                hover, out
+            ]
+
+            this.allMagnet.forEach(function(magnet){
+                magnet.addEventListener("mouseover", self.magnetMode[0])
+                magnet.addEventListener("mouseout", self.magnetMode[1])
+            })
+        }
         
-
         this.init()
-
     }
 }
 const cursorTest = new Cursor(body, styleColor, true, false)
 //push in / color / cursor visible?/ tickReduction?
 
 //put class .hover for add cursor interaction with the dom element and
-//put class .magnet for add etc..
+//put class .magnet-hover for add etc..
