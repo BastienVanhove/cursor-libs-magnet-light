@@ -26,6 +26,9 @@ class Cursor{
     //private imageHoverMode; zoom in cursor of image hover
 
     constructor(body: HTMLBodyElement, baseColor: string, enabledCursor: boolean = true, tickReduction: boolean = false){
+
+        const FOR_CENTER = 2
+
         this.body = body
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
@@ -50,19 +53,19 @@ class Cursor{
                 const y : number = e.clientY
                 const distance : number = Math.abs(this.lastCoor[0] - x) + Math.abs(this.lastCoor[1] - y)
                 if(tickReduction){
-                    if(distance > (this.height + this.width / 2)/2){
+                    if(distance > (this.height + this.width / FOR_CENTER)/FOR_CENTER){
                         setTimeout(() =>{
                             this.lastCoor[0] = x
                             this.lastCoor[1] = y
-                            this.cursorEl.style.left = `${x - (this.width / 2)}px`
-                            this.cursorEl.style.top = `${y - (this.height / 2)}px`
+                            this.cursorEl.style.left = `${x - (this.width / FOR_CENTER)}px`
+                            this.cursorEl.style.top = `${y - (this.height / FOR_CENTER)}px`
                         },50)
                     }
                 }
                 else{
                     this.transitionDuration = 0
-                    this.cursorEl.style.left = `${x - (this.width / 2)}px`
-                    this.cursorEl.style.top = `${y - (this.height / 2)}px`
+                    this.cursorEl.style.left = `${x - (this.width / FOR_CENTER)}px`
+                    this.cursorEl.style.top = `${y - (this.height / FOR_CENTER)}px`
                 }
             })
         }
@@ -86,15 +89,28 @@ class Cursor{
             const self = this
             
             const hover = (e : Event) =>{
-
                 const domElement = e.target as HTMLElement
                 //find center of Dom Element
                 const findCenterOfDomEl = (el : HTMLElement) : [number, number] =>{
                     const height = el.getBoundingClientRect().height
                     const width = el.getBoundingClientRect().width
-                    return [width/2, height/2]
+                    return [width/FOR_CENTER, height/FOR_CENTER]
                 }
-                console.log(findCenterOfDomEl(domElement))
+
+                const coorRelativeCenter = findCenterOfDomEl(domElement)
+
+                const coorTopLeft : [number, number] = [e.x, e.y]
+
+                const coorCenterAbsolute : [number, number] = [
+                    coorRelativeCenter[0] + coorTopLeft[0],
+                    coorRelativeCenter[1] + coorTopLeft[1]
+                ]
+                
+                this.cursorEl.style.left = `${coorCenterAbsolute[0] - (this.width/ FOR_CENTER)}px`
+                this.cursorEl.style.top = `${coorCenterAbsolute[1]}px`
+                console.log(coorCenterAbsolute, 'was coor init')
+
+                //enfaite ca marche avec une erreur de calcul et sa revien instant a la position car je stop pas l'event window donc faut commencer par stop levent window
             }
 
             const out = (e : Event) => {
