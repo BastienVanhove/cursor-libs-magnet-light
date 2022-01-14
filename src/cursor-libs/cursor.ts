@@ -14,8 +14,8 @@ class Cursor{
     private lastCoor : [number, number];
     private transitionDuration: number;
 
-    private allMagnet: HTMLElement[];
-    private magnetMode: [Function, Function] | null;
+    private allMagnet: NodeList;
+    private magnetMode: [EventListener, EventListener] | null;
 
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
@@ -85,20 +85,34 @@ class Cursor{
 
             const self = this
             
-            const hover = () =>{
-                console.log('hoverThing')
+            const hover = (e : Event) =>{
+
+                const domElement = e.target as HTMLElement
+                //find center of Dom Element
+                const findCenterOfDomEl = (el : HTMLElement) : [number, number] =>{
+                    const height = el.getBoundingClientRect().height
+                    const width = el.getBoundingClientRect().width
+                    return [width/2, height/2]
+                }
+                console.log(findCenterOfDomEl(domElement))
             }
-            const out = () =>{
-                console.log('outThing')
+
+            const out = (e : Event) => {
+                console.log('out')
             }
+
             this.magnetMode = [
                 hover, out
             ]
 
             this.allMagnet.forEach(function(magnet){
-                magnet.addEventListener("mouseover", self.magnetMode[0])
-                magnet.addEventListener("mouseout", self.magnetMode[1])
+                if(self.magnetMode){
+                    magnet.addEventListener("mouseover", self.magnetMode[0])
+                    magnet.addEventListener("mouseout", self.magnetMode[1])
+                }
             })
+        }else{
+            this.magnetMode = null
         }
         
         this.init()
