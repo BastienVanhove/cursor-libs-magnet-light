@@ -11,13 +11,19 @@ class Cursor{
 
     private movement: Function;
     private squareMode: Function;
+    private lastCoor : [number, number];
+    private transitionDuration: number;
+
+    private tick: number;
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
     //private lightMode: Function;
     //private copyColorMode: Function;
     //private copyBackgroundMode: Function;
+    //private lsdMode: Function; multicolor mode quoi
+    //private imageHoverMode; zoom in cursor of image hover
 
-    constructor(body: HTMLBodyElement, baseColor: string, enabledCursor: boolean = true){
+    constructor(body: HTMLBodyElement, baseColor: string, enabledCursor: boolean = true, tickReduction: boolean = false){
         this.body = body
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
@@ -25,33 +31,60 @@ class Cursor{
         this.height = 30
         this.width = 30
 
+        this.transitionDuration = 50
+
         this.squareMode = () =>{
             let style : any = this.cursorEl.style
             style.height = `${this.height}px`;
             style.width = `${this.width}px`;
-            style.border = `5px solid ${this.color}`
+            style.borderRadius = '5px'
+            style.border = `6px solid ${this.color}`
         }
 
+        this.lastCoor = [0, 0]
+        this.tick = 0
         this.movement = () =>{
             window.addEventListener("mousemove",(e)=>{
-                let x : number = e.clientX
-                let y : number = e.clientY
-                this.cursorEl.style.left = `${x - (this.width / 2)}px`
-                this.cursorEl.style.top = `${y - (this.height / 2)}px`
+                const x : number = e.clientX
+                const y : number = e.clientY
+                const distance : number = Math.abs(this.lastCoor[0] - x) + Math.abs(this.lastCoor[1] - y)
+                if(tickReduction){
+                    if(distance > (this.height + this.width / 2)/2){
+                        this.tick++;
+                        setTimeout(() =>{
+                            this.lastCoor[0] = x
+                            this.lastCoor[1] = y
+                            this.cursorEl.style.left = `${x - (this.width / 2)}px`
+                            this.cursorEl.style.top = `${y - (this.height / 2)}px`
+                        },50)
+                    }
+                }
+                else{
+                    this.transitionDuration = 0
+                    this.cursorEl.style.left = `${x - (this.width / 2)}px`
+                    this.cursorEl.style.top = `${y - (this.height / 2)}px`
+                }
             })
         }
 
         this.init = () => {
             if(!enabledCursor) this.body.style.cursor = 'none'
             this.cursorEl.style.position = 'absolute'
+            this.cursorEl.style.transition = `${this.transitionDuration}ms`
             this.squareMode()
             this.movement()
             /*code here*/
             this.body.appendChild(this.cursorEl)
         }
 
+        
+
         this.init()
 
     }
 }
-const cursorTest = new Cursor(body, styleColor, false)
+const cursorTest = new Cursor(body, styleColor, true, false)
+//push in / color / cursor visible?/ tickReduction?
+
+//put class .hover for add cursor interaction with the dom element and
+//put class .magnet for add etc..
