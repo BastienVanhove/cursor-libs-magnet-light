@@ -5,6 +5,7 @@ class Cursor{
 
     private init: Function;
     private cursorEl: HTMLDivElement;
+    private backgroundCursor: HTMLDivElement;
     private body: HTMLBodyElement;
     public color: string;
     private height: number;
@@ -17,7 +18,7 @@ class Cursor{
     private lastCoor : [number, number];
     private transitionDuration: number;
 
-    private onClick : Function;
+    private onClick : EventListener;
 
     private allMagnet: NodeList;
     private magnetMode: [EventListener, EventListener] | null;
@@ -42,6 +43,11 @@ class Cursor{
         this.body = body
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
+        this.backgroundCursor = document.createElement('div') as HTMLDivElement
+        this.backgroundCursor.style.position = "absolute"
+        this.backgroundCursor.style.height = "100vh"
+        this.backgroundCursor.style.width = "100vw"
+        this.backgroundCursor.appendChild(this.cursorEl)
 
         this.height = 20
         this.width = 20
@@ -94,6 +100,7 @@ class Cursor{
         this.deplacementModeMagnetStart = () =>{
             interval = setInterval(() =>{
                 if(interBool){
+                    console.log(interBool)
                     //this.cursorEl.style.transform = "scale(5)"
                     interBool = false
                 }else{
@@ -165,7 +172,7 @@ class Cursor{
             const hover : EventListener = ( e : any ) =>{
                 
                 const domElement = e.target as HTMLElement
-                domElement.style.transition = '500ms'
+                domElement.style.transition = '100ms'
                 //find center of Dom Element
                 this.movementStop()
                 domElement.addEventListener('mousemove', mousemove)

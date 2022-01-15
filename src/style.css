@@ -9,18 +9,19 @@
   width: 100vw;
   display: flex;
   justify-content: space-around;
+  position: relative;
 }
 i{
-  font-size: 13em;
+  font-size: 7em;
   color: white;
   width: min-content;
   margin-left: auto;
   margin-right: auto;
+  background-color: grey;
 }
 .magnet-container{
   margin-top: auto;
   margin-bottom: auto;
-  border: 2px solid white;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
@@ -46,4 +47,15 @@ i{
 }
 .anti-magnet-container>i{
   transform: rotate(180deg)
+}
+.randomThing{
+  margin-top: 200px;
+  height: 200px;
+  width: 200px;
+  border: 2px solid purple;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.randomThing>img{
+  height: 100%;
 }
