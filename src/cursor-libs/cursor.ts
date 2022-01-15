@@ -1,5 +1,5 @@
 const body = document.querySelector("body") as HTMLBodyElement
-const styleColor = "purple"
+const styleColor = "red"
 
 class Cursor{
 
@@ -17,8 +17,14 @@ class Cursor{
     private lastCoor : [number, number];
     private transitionDuration: number;
 
+    private onClick : Function;
+
     private allMagnet: NodeList;
     private magnetMode: [EventListener, EventListener] | null;
+
+    private deplacementModeMagnetStart: Function;
+    private deplacementModeMagnetStop: Function;
+    private deplacementModeHover: Function;
 
 
     //private simpleHoverMode: Function;
@@ -37,8 +43,8 @@ class Cursor{
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
 
-        this.height = 30
-        this.width = 30
+        this.height = 20
+        this.width = 20
 
         this.transitionDuration = 50
 
@@ -47,7 +53,7 @@ class Cursor{
             style.height = `${this.height}px`;
             style.width = `${this.width}px`;
             style.borderRadius = '5px'
-            style.border = `6px solid ${this.color}`
+            style.border = `5px solid ${this.color}`
         }
 
         this.lastCoor = [0, 0]
@@ -71,12 +77,40 @@ class Cursor{
                 }
         }
 
+        this.onClick = (e : Event) =>{
+            console.log("onClick Event", e)
+        }
+
         this.movementStart = () =>{
             window.addEventListener("mousemove", this.movement)
         }
 
         this.movementStop = () =>{
             window.removeEventListener("mousemove", this.movement)
+        }
+
+        let interBool = true
+        let interval : any = null
+        this.deplacementModeMagnetStart = () =>{
+            interval = setInterval(() =>{
+                if(interBool){
+                    //this.cursorEl.style.transform = "scale(5)"
+                    interBool = false
+                }else{
+                    console.log(interBool);
+                    //this.cursorEl.style.transform = "scale(1)"
+                    interBool = true
+                }
+            },300)
+            console.log('start magnet thing')
+        }
+        this.deplacementModeMagnetStop = () =>{
+            clearInterval(interval)
+            console.log('stop magnet thing')
+        }
+
+        this.deplacementModeHover = () =>{
+
         }
 
         this.init = () => {
@@ -86,6 +120,7 @@ class Cursor{
             this.cursorEl.style.transition = `${this.transitionDuration}ms`
             this.squareMode()
             this.movementStart()
+            window.addEventListener('click', this.onClick)
             /*code here*/
             this.body.appendChild(this.cursorEl)
         }
@@ -93,15 +128,12 @@ class Cursor{
         this.allMagnet = body.querySelectorAll('.magnet-hover')
         if(this.allMagnet.length >= 1){
 
-            console.log('magnet mouse initialiser')
-
             const self = this
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
                 const clientX = e.clientX
                 const clientY = e.clientY
-                console.log(clientX, clientY)
 
                 const findCenterOfDomEl = (el : HTMLElement) : [number, number] =>{
                     const xEl = el.getBoundingClientRect().x
@@ -137,6 +169,7 @@ class Cursor{
                 //find center of Dom Element
                 this.movementStop()
                 domElement.addEventListener('mousemove', mousemove)
+                this.deplacementModeMagnetStart()
 
             }
 
@@ -146,6 +179,8 @@ class Cursor{
                 domElement.style.transform = `translate(0px, 0px)`
                 console.log(e)
                 this.movementStart()
+                this.deplacementModeMagnetStop()
+
             }
 
             this.magnetMode = [
