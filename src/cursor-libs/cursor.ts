@@ -66,7 +66,6 @@ class Cursor{
                     }
                 }
                 else{
-                    this.transitionDuration = 0
                     this.cursorEl.style.left = `${x - (this.width / FOR_CENTER)}px`
                     this.cursorEl.style.top = `${y - (this.height / FOR_CENTER)}px`
                 }
@@ -98,10 +97,12 @@ class Cursor{
 
             const self = this
             
-            const hover : EventListener = ( e : any ) =>{
-                
-                const domElement = e.target as HTMLElement
-                //find center of Dom Element
+            const mousemove : EventListener = (e : any) =>{
+                const domElement = e.target
+                const clientX = e.clientX
+                const clientY = e.clientY
+                console.log(clientX, clientY)
+
                 const findCenterOfDomEl = (el : HTMLElement) : [number, number] =>{
                     const xEl = el.getBoundingClientRect().x
                     const yEl = el.getBoundingClientRect().y
@@ -114,13 +115,35 @@ class Cursor{
 
                 const coor = findCenterOfDomEl(domElement)
 
+                const ecart : [number, number] = [coor[0] - clientX, coor[1] - clientY]
+
+                domElement.style.transform = `translate(${-ecart[0]}px, ${-ecart[1]}px)`
+
+                const newCoor : [number, number] = [
+                    (coor[0] - ecart[0]/1.75) - this.height/4,
+                    (coor[1] - ecart[1]/1.75) - this.width/4
+                ]
+
+                this.cursorEl.style.left = `${newCoor[0]}px`
+                this.cursorEl.style.top = `${newCoor[1]}px`
+
+                //calculer l'ecart avec le center
+            }
+
+            const hover : EventListener = ( e : any ) =>{
+                
+                const domElement = e.target as HTMLElement
+                domElement.style.transition = '500ms'
+                //find center of Dom Element
                 this.movementStop()
-                this.cursorEl.style.left = `${coor[0]}px`
-                this.cursorEl.style.top = `${coor[1]}px`
+                domElement.addEventListener('mousemove', mousemove)
 
             }
 
             const out = (e : any) => {
+                const domElement = e.target as HTMLElement
+                domElement.removeEventListener('mousemove', mousemove)
+                domElement.style.transform = `translate(0px, 0px)`
                 console.log(e)
                 this.movementStart()
             }
