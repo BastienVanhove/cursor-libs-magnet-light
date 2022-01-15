@@ -1,5 +1,5 @@
 const body = document.querySelector("body") as HTMLBodyElement
-const styleColor = "red"
+const styleColor = "black"
 
 class Cursor{
 
@@ -8,6 +8,7 @@ class Cursor{
     private backgroundCursor: HTMLDivElement;
     private body: HTMLBodyElement;
     public color: string;
+    public border: string;
     private height: number;
     private width: number;
 
@@ -36,12 +37,13 @@ class Cursor{
     //private lsdMode: Function; multicolor mode quoi
     //private imageHoverMode; zoom in cursor of image hover
 
-    constructor(body: HTMLBodyElement, baseColor: string, enabledCursor: boolean = true, tickReduction: boolean = false){
+    constructor(body: HTMLBodyElement, baseColor: string, border: string, enabledCursor: boolean = true, tickReduction: boolean = false){
 
         const FOR_CENTER = 2
 
         this.body = body
         this.color = baseColor
+        this.border = border
         this.cursorEl = document.createElement('div') as HTMLDivElement
         this.backgroundCursor = document.createElement('div') as HTMLDivElement
         this.backgroundCursor.style.position = "absolute"
@@ -58,8 +60,9 @@ class Cursor{
             let style : any = this.cursorEl.style
             style.height = `${this.height}px`;
             style.width = `${this.width}px`;
-            style.borderRadius = '5px'
-            style.border = `5px solid ${this.color}`
+            style.borderRadius = '50%'
+            style.background = `${this.color}`
+            style.border = `2px solid ${this.border}`
         }
 
         this.lastCoor = [0, 0]
@@ -98,22 +101,21 @@ class Cursor{
         let interBool = true
         let interval : any = null
         this.deplacementModeMagnetStart = () =>{
+            this.cursorEl.style.borderRadius = "7px"
             interval = setInterval(() =>{
                 if(interBool){
-                    console.log(interBool)
-                    //this.cursorEl.style.transform = "scale(5)"
+                    this.cursorEl.style.transform = "scale(1.20) rotate(360deg)"
                     interBool = false
                 }else{
-                    console.log(interBool);
-                    //this.cursorEl.style.transform = "scale(1)"
+                    this.cursorEl.style.transform = "scale(1) rotate(0deg)"
                     interBool = true
                 }
-            },300)
-            console.log('start magnet thing')
+            },75)
         }
         this.deplacementModeMagnetStop = () =>{
+            this.cursorEl.style.borderRadius = "50%"
+            this.cursorEl.style.transform = "scale(1) rotate(0deg)"
             clearInterval(interval)
-            console.log('stop magnet thing')
         }
 
         this.deplacementModeHover = () =>{
@@ -194,7 +196,7 @@ class Cursor{
                 hover, out
             ]
 
-            this.allMagnet.forEach(function(magnet){
+            this.allMagnet.forEach(function(magnet : any) {
                 if(self.magnetMode){
                     magnet.addEventListener("mouseover", self.magnetMode[0])
                     magnet.addEventListener("mouseout", self.magnetMode[1])
@@ -207,7 +209,7 @@ class Cursor{
         this.init()
     }
 }
-const cursorTest = new Cursor(body, styleColor, true, false)
+const cursorTest = new Cursor(body, styleColor, "white", true, false)
 //push in / color / cursor visible?/ tickReduction?
 
 //put class .hover for add cursor interaction with the dom element and
