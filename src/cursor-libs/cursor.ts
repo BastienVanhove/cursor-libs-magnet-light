@@ -2,6 +2,7 @@ const body = document.querySelector("body") as HTMLBodyElement
 const styleColor = "purple"
 
 class Cursor{
+
     private init: Function;
     private cursorEl: HTMLDivElement;
     private body: HTMLBodyElement;
@@ -9,13 +10,16 @@ class Cursor{
     private height: number;
     private width: number;
 
-    private movement: Function;
+    private movement: EventListener;
+    private movementStart: Function;
+    private movementStop: Function;
     private squareMode: Function;
     private lastCoor : [number, number];
     private transitionDuration: number;
 
     private allMagnet: NodeList;
     private magnetMode: [EventListener, EventListener] | null;
+
 
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
@@ -47,9 +51,8 @@ class Cursor{
         }
 
         this.lastCoor = [0, 0]
-        this.movement = () =>{
-            window.addEventListener("mousemove",(e)=>{
-                const x : number = e.clientX
+        this.movement = (e : any) =>{
+            const x : number = e.clientX
                 const y : number = e.clientY
                 const distance : number = Math.abs(this.lastCoor[0] - x) + Math.abs(this.lastCoor[1] - y)
                 if(tickReduction){
@@ -67,7 +70,14 @@ class Cursor{
                     this.cursorEl.style.left = `${x - (this.width / FOR_CENTER)}px`
                     this.cursorEl.style.top = `${y - (this.height / FOR_CENTER)}px`
                 }
-            })
+        }
+
+        this.movementStart = () =>{
+            window.addEventListener("mousemove", this.movement)
+        }
+
+        this.movementStop = () =>{
+            window.removeEventListener("mousemove", this.movement)
         }
 
         this.init = () => {
@@ -76,7 +86,7 @@ class Cursor{
             this.cursorEl.style.pointerEvents = 'none'
             this.cursorEl.style.transition = `${this.transitionDuration}ms`
             this.squareMode()
-            this.movement()
+            this.movementStart()
             /*code here*/
             this.body.appendChild(this.cursorEl)
         }
@@ -88,33 +98,31 @@ class Cursor{
 
             const self = this
             
-            const hover = (e : Event) =>{
+            const hover : EventListener = ( e : any ) =>{
+                
                 const domElement = e.target as HTMLElement
                 //find center of Dom Element
                 const findCenterOfDomEl = (el : HTMLElement) : [number, number] =>{
+                    const xEl = el.getBoundingClientRect().x
+                    const yEl = el.getBoundingClientRect().y
+
                     const height = el.getBoundingClientRect().height
                     const width = el.getBoundingClientRect().width
-                    return [width/FOR_CENTER, height/FOR_CENTER]
+
+                    return [(xEl + (width/FOR_CENTER)) - this.width / FOR_CENTER, (yEl + (height/FOR_CENTER)) - this.height / FOR_CENTER]
                 }
 
-                const coorRelativeCenter = findCenterOfDomEl(domElement)
+                const coor = findCenterOfDomEl(domElement)
 
-                const coorTopLeft : [number, number] = [e.x, e.y]
+                this.movementStop()
+                this.cursorEl.style.left = `${coor[0]}px`
+                this.cursorEl.style.top = `${coor[1]}px`
 
-                const coorCenterAbsolute : [number, number] = [
-                    coorRelativeCenter[0] + coorTopLeft[0],
-                    coorRelativeCenter[1] + coorTopLeft[1]
-                ]
-                
-                this.cursorEl.style.left = `${coorCenterAbsolute[0] - (this.width/ FOR_CENTER)}px`
-                this.cursorEl.style.top = `${coorCenterAbsolute[1]}px`
-                console.log(coorCenterAbsolute, 'was coor init')
-
-                //enfaite ca marche avec une erreur de calcul et sa revien instant a la position car je stop pas l'event window donc faut commencer par stop levent window
             }
 
-            const out = (e : Event) => {
-                console.log('out')
+            const out = (e : any) => {
+                console.log(e)
+                this.movementStart()
             }
 
             this.magnetMode = [
