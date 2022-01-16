@@ -12,12 +12,11 @@
   position: relative;
 }
 i{
-  font-size: 7em;
-  color: white;
+  font-size: 12em;
+  color: rgb(128, 27, 27);
   width: min-content;
   margin-left: auto;
   margin-right: auto;
-  background-color: grey;
 }
 .magnet-container{
   margin-top: auto;
@@ -28,9 +27,9 @@ i{
   text-align: center;
 }
 .light-container{
+  background-color: rgb(73, 62, 62);
   margin-top: auto;
   margin-bottom: auto;
-  border: 2px solid white;
   display: flex;
   justify-content: space-around;
   flex-direction: column;

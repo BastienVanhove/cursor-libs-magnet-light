@@ -1,5 +1,5 @@
 const body = document.querySelector("body") as HTMLBodyElement
-const styleColor = "black"
+const styleColor = "white"
 
 class Cursor{
 
@@ -8,7 +8,6 @@ class Cursor{
     private backgroundCursor: HTMLDivElement;
     private body: HTMLBodyElement;
     public color: string;
-    public border: string;
     private height: number;
     private width: number;
 
@@ -37,13 +36,12 @@ class Cursor{
     //private lsdMode: Function; multicolor mode quoi
     //private imageHoverMode; zoom in cursor of image hover
 
-    constructor(body: HTMLBodyElement, baseColor: string, border: string, enabledCursor: boolean = true, tickReduction: boolean = false){
+    constructor(body: HTMLBodyElement, baseColor: string,enabledCursor: boolean = true, tickReduction: boolean = false){
 
         const FOR_CENTER = 2
 
         this.body = body
         this.color = baseColor
-        this.border = border
         this.cursorEl = document.createElement('div') as HTMLDivElement
         this.backgroundCursor = document.createElement('div') as HTMLDivElement
         this.backgroundCursor.style.position = "absolute"
@@ -51,8 +49,8 @@ class Cursor{
         this.backgroundCursor.style.width = "100vw"
         this.backgroundCursor.appendChild(this.cursorEl)
 
-        this.height = 20
-        this.width = 20
+        this.height = 15
+        this.width = 15
 
         this.transitionDuration = 50
 
@@ -62,7 +60,6 @@ class Cursor{
             style.width = `${this.width}px`;
             style.borderRadius = '50%'
             style.background = `${this.color}`
-            style.border = `2px solid ${this.border}`
         }
 
         this.lastCoor = [0, 0]
@@ -186,7 +183,7 @@ class Cursor{
                 const domElement = e.target as HTMLElement
                 domElement.removeEventListener('mousemove', mousemove)
                 domElement.style.transform = `translate(0px, 0px)`
-                console.log(e)
+                //console.log(e)
                 this.movementStart()
                 this.deplacementModeMagnetStop()
 
@@ -209,7 +206,7 @@ class Cursor{
         this.init()
     }
 }
-const cursorTest = new Cursor(body, styleColor, "white", true, false)
+const cursorTest = new Cursor(body, styleColor, true, false)
 //push in / color / cursor visible?/ tickReduction?
 
 //put class .hover for add cursor interaction with the dom element and
