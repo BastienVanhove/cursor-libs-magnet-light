@@ -58,3 +58,14 @@ i{
 .randomThing>img{
   height: 100%;
 }
+.chessBoard{
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 750px;
+  width: 750px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  border: 5px solid rgb(184, 173, 173);
+  border-radius: 5px;
+}
