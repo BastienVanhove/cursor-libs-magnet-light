@@ -67,7 +67,7 @@ class Cursor{
 
             this.squareMode()
             this.movementStart()
-            window.addEventListener('click', this.onClick)
+            window.addEventListener('mousedown', this.onClick)
             /*code here*/
             this.body.appendChild(this.lightFilter)
             this.filterOff()
@@ -113,6 +113,10 @@ class Cursor{
 
         this.onClick = (e : Event) =>{
             console.log("onClick Event", e)
+            this.cursorEl.style.transform = "scale(0.5)"
+            setTimeout(() =>{
+                this.cursorEl.style.transform = "scale(1)"
+            }, 50)
         }
 
         this.movementStart = () =>{
