@@ -25,9 +25,6 @@ class Cursor{
     private allMagnet: NodeList;
     private magnetMode: [EventListener, EventListener] | null;
 
-    private deplacementModeMagnetStart: Function;
-    private deplacementModeMagnetStop: Function;
-
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
     //private lightMode: Function;
@@ -87,6 +84,7 @@ class Cursor{
             style.height = `${this.height}px`;
             style.width = `${this.width}px`;
             style.borderRadius = '50%'
+            style.opacity = "0.7"
             style.background = `${this.color}`
         }
 
@@ -125,26 +123,6 @@ class Cursor{
 
         this.movementStop = () =>{
             window.removeEventListener("mousemove", this.movement)
-        }
-
-        let interBool = true
-        let interval : any = null
-        this.deplacementModeMagnetStart = () =>{
-            this.cursorEl.style.borderRadius = "7px"
-            interval = setInterval(() =>{
-                if(interBool){
-                    this.cursorEl.style.transform = "scale(1.20) rotate(360deg)"
-                    interBool = false
-                }else{
-                    this.cursorEl.style.transform = "scale(1) rotate(0deg)"
-                    interBool = true
-                }
-            },75)
-        }
-        this.deplacementModeMagnetStop = () =>{
-            this.cursorEl.style.borderRadius = "50%"
-            this.cursorEl.style.transform = "scale(1) rotate(0deg)"
-            clearInterval(interval)
         }
 
         this.allMagnet = body.querySelectorAll('.magnet-hover')
@@ -191,8 +169,6 @@ class Cursor{
                 //find center of Dom Element
                 this.movementStop()
                 domElement.addEventListener('mousemove', mousemove)
-                this.deplacementModeMagnetStart()
-
             }
 
             const out = (e : any) => {
@@ -201,8 +177,6 @@ class Cursor{
                 domElement.style.transform = `translate(0px, 0px)`
                 //console.log(e)
                 this.movementStart()
-                this.deplacementModeMagnetStop()
-
             }
 
             this.magnetMode = [
