@@ -5,12 +5,14 @@ class Cursor{
 
     private init: Function;
     private cursorEl: HTMLDivElement;
-    private backgroundCursor: HTMLDivElement;
+    private lightFilter: HTMLDivElement;
     private body: HTMLBodyElement;
     public color: string;
     private height: number;
     private width: number;
 
+    private filterOn: Function;
+    private filterOff: Function;
     private movement: EventListener;
     private movementStart: Function;
     private movementStop: Function;
@@ -25,8 +27,6 @@ class Cursor{
 
     private deplacementModeMagnetStart: Function;
     private deplacementModeMagnetStop: Function;
-    private deplacementModeHover: Function;
-
 
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
@@ -43,16 +43,44 @@ class Cursor{
         this.body = body
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
-        this.backgroundCursor = document.createElement('div') as HTMLDivElement
-        this.backgroundCursor.style.position = "absolute"
-        this.backgroundCursor.style.height = "100vh"
-        this.backgroundCursor.style.width = "100vw"
-        this.backgroundCursor.appendChild(this.cursorEl)
+        this.lightFilter = document.createElement('div') as HTMLDivElement
 
         this.height = 15
         this.width = 15
 
         this.transitionDuration = 50
+
+        this.init = () => {
+            if(!enabledCursor) this.body.style.cursor = 'none'
+
+            this.cursorEl.style.position = 'absolute'
+            this.cursorEl.style.pointerEvents = 'none'
+            this.cursorEl.style.transition = `${this.transitionDuration}ms`
+
+            this.lightFilter.style.height = "100vh"
+            this.lightFilter.style.width = "100vw"
+            this.lightFilter.style.position = "absolute"
+            this.lightFilter.style.pointerEvents = "none"
+            this.lightFilter.style.background = "black"
+            this.lightFilter.style.opacity = "0.8"
+            this.lightFilter.style.transition = "0.5s"
+
+            this.squareMode()
+            this.movementStart()
+            window.addEventListener('click', this.onClick)
+            /*code here*/
+            this.body.appendChild(this.lightFilter)
+            this.filterOff()
+            this.body.appendChild(this.cursorEl)
+        }
+
+        this.filterOn = () =>{
+            this.lightFilter.style.display = "block"
+        }
+
+        this.filterOff = () =>{
+            this.lightFilter.style.display = "none"
+        }
 
         this.squareMode = () =>{
             let style : any = this.cursorEl.style
@@ -113,22 +141,6 @@ class Cursor{
             this.cursorEl.style.borderRadius = "50%"
             this.cursorEl.style.transform = "scale(1) rotate(0deg)"
             clearInterval(interval)
-        }
-
-        this.deplacementModeHover = () =>{
-
-        }
-
-        this.init = () => {
-            if(!enabledCursor) this.body.style.cursor = 'none'
-            this.cursorEl.style.position = 'absolute'
-            this.cursorEl.style.pointerEvents = 'none'
-            this.cursorEl.style.transition = `${this.transitionDuration}ms`
-            this.squareMode()
-            this.movementStart()
-            window.addEventListener('click', this.onClick)
-            /*code here*/
-            this.body.appendChild(this.cursorEl)
         }
 
         this.allMagnet = body.querySelectorAll('.magnet-hover')
