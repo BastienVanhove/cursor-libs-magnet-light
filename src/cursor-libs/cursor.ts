@@ -20,10 +20,15 @@ class Cursor{
     private lastCoor : [number, number];
     private transitionDuration: number;
 
-    private onClick : EventListener;
+    private onClickDown : EventListener;
+    private onClickUp : EventListener;
 
+    //change stucture of this but now im lazzy so shut up
     private allMagnet: NodeList;
     private magnetMode: [EventListener, EventListener] | null;
+
+    private allClick: NodeList;
+    private clickMode: [Function, Function] | null;
 
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
@@ -64,10 +69,13 @@ class Cursor{
 
             this.squareMode()
             this.movementStart()
-            window.addEventListener('mousedown', this.onClick)
-            /*code here*/
-            this.body.appendChild(this.lightFilter)
+
+            window.addEventListener('mousedown', this.onClickDown)
+            window.addEventListener('mouseup', this.onClickUp)
+
             this.filterOff()
+
+            this.body.appendChild(this.lightFilter)
             this.body.appendChild(this.cursorEl)
         }
 
@@ -109,12 +117,12 @@ class Cursor{
                 }
         }
 
-        this.onClick = (e : Event) =>{
-            console.log("onClick Event", e)
+        this.onClickDown = (e : Event) =>{
             this.cursorEl.style.transform = "scale(0.5)"
-            setTimeout(() =>{
-                this.cursorEl.style.transform = "scale(1)"
-            }, 50)
+        }
+
+        this.onClickUp = (e : Event) =>{
+            this.cursorEl.style.transform = "scale(1)"
         }
 
         this.movementStart = () =>{
@@ -192,6 +200,16 @@ class Cursor{
         }else{
             this.magnetMode = null
         }
+
+        this.allClick = body.querySelectorAll('.click')
+        if(this.allClick.length >= 1){
+
+        }
+        else{
+            this.clickMode = null
+        }
+
+
         
         this.init()
     }
