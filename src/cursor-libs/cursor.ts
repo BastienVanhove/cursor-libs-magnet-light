@@ -3,6 +3,7 @@ const styleColor = "white"
 class Cursor{
 
     private init: Function;
+    private unInit: Function;
     private cursorEl: HTMLDivElement;
     private transitonCursor: HTMLDivElement;
     private lightFilter: HTMLDivElement;
@@ -68,6 +69,18 @@ class Cursor{
 
             this.body.appendChild(this.lightFilter)
             this.body.appendChild(this.cursorEl)
+
+            window.addEventListener('resize', ()=>{
+                if(window.innerWidth < 900){
+                    this.body.style.cursor = 'none'
+                }else{
+                    this.body.style.cursor = 'auto'
+                }
+            })
+        }
+
+        this.unInit = () =>{
+            console.log('un init the cursor')
         }
 
         this.filterOn = () =>{
