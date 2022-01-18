@@ -134,7 +134,6 @@ class Cursor{
         const exctractScaleValue = () =>{
             let str = this.transitonCursor.style.transform
             str = str.replace('scale(', '').replace(')', '')
-            console.log(str)
             return parseFloat(str)
         }
         let scale : number
@@ -236,7 +235,6 @@ class Cursor{
                     magnet.addEventListener("mouseover", self.magnetMode[0])
                     magnet.addEventListener("mouseout", self.magnetMode[1])
                 }
-                console.log('put a hit box here')
             })
         }else{
             this.magnetMode = null

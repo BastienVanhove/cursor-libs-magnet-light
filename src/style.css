@@ -13,7 +13,7 @@
 }
 i{
   font-size: 5em;
-  color: rgb(128, 27, 27);
+  color: rgb(47, 41, 116);
   width: min-content;
   margin-left: auto;
   margin-right: auto;
@@ -48,15 +48,4 @@ i{
 .click-container{
   margin-top:auto;
   margin-bottom:auto;
-}
-.chessBoard{
-  margin-top: auto;
-  margin-bottom: auto;
-  height: 300px;
-  width: 300px;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  border: 5px solid rgb(184, 173, 173);
-  border-radius: 5px;
 }
