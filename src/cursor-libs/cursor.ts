@@ -31,6 +31,9 @@ class Cursor{
     private allClick: NodeList;
     private clickMode: [EventListener, EventListener] | null;
 
+    private allLight: NodeList;
+    private lightMode: [EventListener, EventListener] | null;
+
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
     //private lightMode: Function;
@@ -283,12 +286,32 @@ class Cursor{
             this.clickMode = null
         }
 
+        this.allLight = this.body.querySelectorAll('.light')
+        if(this.allLight.length >= 1){
+            const hover = () =>{
+
+            }
+            const out = () =>{
+
+            }
+
+            this.lightMode = [hover, out]
+
+            this.allLight.forEach(function(click){
+                if(self.clickMode){
+                    click.addEventListener('mouseover', self.clickMode[0])
+                    click.addEventListener('mouseout', self.clickMode[1])
+
+                }
+            })
+        }
+        else{
+            this.lightMode = null
+        }
+
         this.init()
     }
 }
 const cursorTest = new Cursor(styleColor, true, false)
 
-//push in / color / cursor visible?/ tickReduction?
-
-//put class .hover for add cursor interaction with the dom element and
-//put class .magnet-hover for add etc..
+// arguments : / color? / cursor visible? / tickReduction?
