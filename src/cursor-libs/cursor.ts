@@ -217,7 +217,7 @@ class Cursor{
         if(this.allClick.length >= 1){
 
             const SCALE_ENGLOBE = 1.5
-            const OPACITY_HOVER = "0.1"
+            const OPACITY_HOVER = "0.2"
 
             const hover = (e : any) =>{
 
