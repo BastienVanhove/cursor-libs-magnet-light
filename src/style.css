@@ -52,8 +52,8 @@ i{
 .chessBoard{
   margin-top: auto;
   margin-bottom: auto;
-  height: 400px;
-  width: 400px;
+  height: 300px;
+  width: 300px;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;

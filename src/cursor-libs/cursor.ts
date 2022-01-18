@@ -34,12 +34,6 @@ class Cursor{
     private allLight: NodeList;
     private lightMode: [EventListener, EventListener] | null;
 
-    //private simpleHoverMode: Function;
-    //private magnetMode: Function;
-    //private lightMode: Function;
-    //private copyColorMode: Function;
-    //private copyBackgroundMode: Function;
-    //private lsdMode: Function; multicolor mode quoi
     //private imageHoverMode; zoom in cursor of image hover
 
     constructor(baseColor: string,enabledCursor: boolean = true, tickReduction: boolean = false){
@@ -77,11 +71,11 @@ class Cursor{
         }
 
         this.filterOn = () =>{
-            this.lightFilter.style.display = "block"
+            this.lightFilter.style.opacity = "0.8"
         }
 
         this.filterOff = () =>{
-            this.lightFilter.style.display = "none"
+            this.lightFilter.style.opacity = "0"
         }
 
         this.initCursor = () =>{
@@ -94,6 +88,7 @@ class Cursor{
             style.pointerEvents = 'none'
             style.transition = `${this.transitionDuration}ms`
             style.transform = 'scale(1)'
+            style.zIndex = '9999'
 
             const transitionStyle : any = this.transitonCursor.style
             transitionStyle.height = "100%"
@@ -288,20 +283,26 @@ class Cursor{
 
         this.allLight = this.body.querySelectorAll('.light')
         if(this.allLight.length >= 1){
-            const hover = () =>{
 
+            let lastLight : HTMLElement
+            const hover = (e : any) =>{
+                this.filterOn()
+                lastLight = e.target
+                const targetStyle = e.target.style
+                targetStyle.zIndex = 1
             }
-            const out = () =>{
 
+            const out = () =>{ 
+                this.filterOff() 
+                if(lastLight) lastLight.style.zIndex = "0"
             }
 
             this.lightMode = [hover, out]
 
             this.allLight.forEach(function(click){
-                if(self.clickMode){
-                    click.addEventListener('mouseover', self.clickMode[0])
-                    click.addEventListener('mouseout', self.clickMode[1])
-
+                if(self.lightMode){
+                    click.addEventListener('mouseover', self.lightMode[0])
+                    click.addEventListener('mouseout', self.lightMode[1])
                 }
             })
         }
