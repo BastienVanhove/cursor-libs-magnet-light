@@ -1,5 +1,5 @@
 const body = document.querySelector("body") as HTMLBodyElement
-const styleColor = "white"
+const styleColor = "green"
 
 class Cursor{
 
@@ -10,6 +10,7 @@ class Cursor{
     public color: string;
     private height: number;
     private width: number;
+    private baseOpacity: string;
 
     private filterOn: Function;
     private filterOff: Function;
@@ -50,9 +51,12 @@ class Cursor{
         this.height = 15
         this.width = 15
 
+        this.baseOpacity = "0.8"
+
         this.transitionDuration = 50
 
         this.init = () => {
+
             if(!enabledCursor) this.body.style.cursor = 'none'
 
             this.cursorEl.style.position = 'absolute'
@@ -65,7 +69,7 @@ class Cursor{
             this.lightFilter.style.position = "absolute"
             this.lightFilter.style.pointerEvents = "none"
             this.lightFilter.style.background = "black"
-            this.lightFilter.style.opacity = "0.8"
+            this.lightFilter.style.opacity = this.baseOpacity
             this.lightFilter.style.transition = "0.5s"
 
             this.squareMode()
@@ -211,12 +215,27 @@ class Cursor{
 
         this.allClick = body.querySelectorAll('.click')
         if(this.allClick.length >= 1){
-            const hover = () =>{
-                this.cursorEl.style.transform = "scale(5)"
+
+            const SCALE_ENGLOBE = 1.5
+            const OPACITY_HOVER = "0.1"
+
+            const hover = (e : any) =>{
+
+                const cursorB = this.cursorEl.getBoundingClientRect()
+                const cursorValue = (cursorB.height + cursorB.width) / 2
+
+                const elB = e.target.getBoundingClientRect()
+                const elValue = (elB.height + elB.width) / 2
+
+                const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
+
+                this.cursorEl.style.transform = `scale(${scaleFactor})`
+                this.cursorEl.style.opacity = OPACITY_HOVER
             }
             const out = () =>{
+                scale = 1
                 this.cursorEl.style.transform = "scale(1)"
-
+                this.cursorEl.style.opacity = this.baseOpacity
             }
 
             this.clickMode = [hover, out]
