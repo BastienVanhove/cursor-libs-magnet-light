@@ -287,7 +287,7 @@ class Cursor{
                 this.filterOn()
                 lastLight = e.target
                 const targetStyle = e.target.style
-                targetStyle.zIndex = 1
+                targetStyle.zIndex = 9998
             }
 
             const out = () =>{ 
@@ -311,6 +311,7 @@ class Cursor{
         this.init()
     }
 }
-const cursorTest = new Cursor(styleColor, true, false)
 
-// arguments : / color? / cursor visible? / tickReduction?
+const cursorTest = new Cursor(styleColor, false, false)
+
+// arguments : / color?:string / cursor visible?:boolean / tickReduction?:boolean  / sound ?:boolean 
