@@ -28,7 +28,7 @@ class Cursor{
     private magnetMode: [EventListener, EventListener] | null;
 
     private allClick: NodeList;
-    private clickMode: [Function, Function] | null;
+    private clickMode: [EventListener, EventListener] | null;
 
     //private simpleHoverMode: Function;
     //private magnetMode: Function;
@@ -58,6 +58,7 @@ class Cursor{
             this.cursorEl.style.position = 'absolute'
             this.cursorEl.style.pointerEvents = 'none'
             this.cursorEl.style.transition = `${this.transitionDuration}ms`
+            this.cursorEl.style.transform = 'scale(1)'
 
             this.lightFilter.style.height = "100vh"
             this.lightFilter.style.width = "100vw"
@@ -117,14 +118,26 @@ class Cursor{
                 }
         }
 
+        //click event
+        const exctractScaleValue = () =>{
+            //ca marche pas car il est con il comprend pas les float
+            const scaleX = this.cursorEl.style.transform
+            let value = 0
+            scaleX.split('').forEach(s =>{
+                if(Number.isInteger(parseInt(s))) value = parseInt(s)
+            })
+            return value
+        }
         this.onClickDown = (e : Event) =>{
-            this.cursorEl.style.transform = "scale(0.5)"
+            const scale = exctractScaleValue()
+            this.cursorEl.style.transform = `scale(${scale * 0.70})`
         }
-
         this.onClickUp = (e : Event) =>{
-            this.cursorEl.style.transform = "scale(1)"
+            const scale = exctractScaleValue()
+            this.cursorEl.style.transform = `scale(${scale})`
         }
 
+        //moovement start stop method
         this.movementStart = () =>{
             window.addEventListener("mousemove", this.movement)
         }
@@ -132,11 +145,9 @@ class Cursor{
         this.movementStop = () =>{
             window.removeEventListener("mousemove", this.movement)
         }
-
+        const self = this
         this.allMagnet = body.querySelectorAll('.magnet-hover')
         if(this.allMagnet.length >= 1){
-
-            const self = this
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
@@ -203,7 +214,23 @@ class Cursor{
 
         this.allClick = body.querySelectorAll('.click')
         if(this.allClick.length >= 1){
+            const hover = () =>{
+                this.cursorEl.style.transform = "scale(5)"
+            }
+            const out = () =>{
+                this.cursorEl.style.transform = "scale(1)"
 
+            }
+
+            this.clickMode = [hover, out]
+
+            this.allClick.forEach(function(click){
+                if(self.clickMode){
+                    click.addEventListener('mouseover', self.clickMode[0])
+                    click.addEventListener('mouseout', self.clickMode[1])
+
+                }
+            })
         }
         else{
             this.clickMode = null
