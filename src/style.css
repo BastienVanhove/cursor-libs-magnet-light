@@ -16,11 +16,11 @@ body{
 
 .circle{
   margin: 50px;
-  background: #6038c607;
-  border: 3px solid #6f49cf1c;
+  background: #6038c60e;
+  border: 3px solid #6f49cf8e;
   height: 70px;
   width: 70px;
-  border-radius: 50%;
+  border-radius: 25px;
   
 }
 .menua{

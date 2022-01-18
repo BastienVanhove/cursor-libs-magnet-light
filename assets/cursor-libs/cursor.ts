@@ -1,4 +1,4 @@
-const styleColor = "white"
+const styleColor = "#6f49cf"
 
 class Cursor{
 
@@ -171,7 +171,7 @@ class Cursor{
         if(this.allMagnet.length >= 1){
 
             const SCALE_ENGLOBE = 1.75
-            const OPACITY_HOVER = "0.15"
+            const OPACITY_HOVER = "0.2"
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
@@ -301,11 +301,13 @@ class Cursor{
                 lastLight = e.target
                 let targetStyle = e.target.style
                 targetStyle.zIndex = 999
+                this.transitonCursor.style.background = "white"
             }
 
             const out = () =>{ 
                 this.filterOff() 
                 if(lastLight) lastLight.style.zIndex = "0"
+                this.transitonCursor.style.background = this.color
             }
 
             this.lightMode = [hover, out]
