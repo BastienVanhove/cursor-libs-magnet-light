@@ -1,4 +1,3 @@
-const body = document.querySelector("body") as HTMLBodyElement
 const styleColor = "white"
 
 class Cursor{
@@ -40,11 +39,9 @@ class Cursor{
     //private lsdMode: Function; multicolor mode quoi
     //private imageHoverMode; zoom in cursor of image hover
 
-    constructor(body: HTMLBodyElement, baseColor: string,enabledCursor: boolean = true, tickReduction: boolean = false){
+    constructor(baseColor: string,enabledCursor: boolean = true, tickReduction: boolean = false){
 
-        const FOR_CENTER = 2
-
-        this.body = body
+        this.body = document.querySelector('body') as HTMLBodyElement
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
         this.transitonCursor = document.createElement('div') as HTMLDivElement
@@ -56,6 +53,8 @@ class Cursor{
         this.baseOpacity = "0.8"
 
         this.transitionDuration = 50
+
+        const FOR_CENTER = 2
 
         this.init = () => {
 
@@ -158,7 +157,7 @@ class Cursor{
             window.removeEventListener("mousemove", this.movement)
         }
         const self = this
-        this.allMagnet = body.querySelectorAll('.magnet-hover')
+        this.allMagnet = this.body.querySelectorAll('.magnet-hover')
         if(this.allMagnet.length >= 1){
 
             const SCALE_ENGLOBE = 1.5
@@ -245,7 +244,7 @@ class Cursor{
             this.magnetMode = null
         }
 
-        this.allClick = body.querySelectorAll('.click')
+        this.allClick = this.body.querySelectorAll('.click')
         if(this.allClick.length >= 1){
 
             const SCALE_ENGLOBE = 1.5
@@ -284,12 +283,11 @@ class Cursor{
             this.clickMode = null
         }
 
-
-        
         this.init()
     }
 }
-const cursorTest = new Cursor(body, styleColor, true, false)
+const cursorTest = new Cursor(styleColor, true, false)
+
 //push in / color / cursor visible?/ tickReduction?
 
 //put class .hover for add cursor interaction with the dom element and
