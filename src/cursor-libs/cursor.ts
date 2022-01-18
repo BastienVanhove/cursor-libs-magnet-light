@@ -169,11 +169,11 @@ class Cursor{
 
                 const ecart : [number, number] = [coor[0] - clientX, coor[1] - clientY]
 
-                domElement.style.transform = `translate(${-ecart[0]}px, ${-ecart[1]}px)`
+                domElement.style.transform = `translate(${-ecart[0] - this.height/2}px, ${-ecart[1] - this.width/2}px)`
 
                 const newCoor : [number, number] = [
-                    (coor[0] - ecart[0]/1.75) - this.height/4,
-                    (coor[1] - ecart[1]/1.75) - this.width/4
+                    (coor[0] - ecart[0]/1.2) - this.height/2,
+                    (coor[1] - ecart[1]/1.2) - this.width/2
                 ]
 
                 this.cursorEl.style.left = `${newCoor[0]}px`
@@ -183,12 +183,11 @@ class Cursor{
             }
 
             const hover : EventListener = ( e : any ) =>{
-                
                 const domElement = e.target as HTMLElement
+                domElement.addEventListener('mousemove', mousemove)
                 domElement.style.transition = '100ms'
                 //find center of Dom Element
                 this.movementStop()
-                domElement.addEventListener('mousemove', mousemove)
             }
 
             const out = (e : any) => {
@@ -208,6 +207,7 @@ class Cursor{
                     magnet.addEventListener("mouseover", self.magnetMode[0])
                     magnet.addEventListener("mouseout", self.magnetMode[1])
                 }
+                console.log('put a hit box here')
             })
         }else{
             this.magnetMode = null
