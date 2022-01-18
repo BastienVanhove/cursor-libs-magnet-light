@@ -120,13 +120,10 @@ class Cursor{
 
         //click event
         const exctractScaleValue = () =>{
-            //ca marche pas car il est con il comprend pas les float
-            const scaleX = this.cursorEl.style.transform
-            let value = 0
-            scaleX.split('').forEach(s =>{
-                if(Number.isInteger(parseInt(s))) value = parseInt(s)
-            })
-            return value
+            let str = this.cursorEl.style.transform
+            str = str.replace('scale(', '').replace(')', '')
+            console.log(str)
+            return parseFloat(str)
         }
         this.onClickDown = (e : Event) =>{
             const scale = exctractScaleValue()
