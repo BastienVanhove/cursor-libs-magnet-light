@@ -1,5 +1,2 @@
-import './script'
-import './cursor-libs/cursor'
 import './style.css'
-
-//const app = document.querySelector<HTMLDivElement>('#app')!
+import '../assets/cursor-libs/cursor'

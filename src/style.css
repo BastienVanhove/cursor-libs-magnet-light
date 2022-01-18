@@ -3,49 +3,24 @@
   padding: 0;
   box-sizing: border-box;
 }
-#root{
+body{
+  position: relative;
   background-color: rgb(20, 20, 20);
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: space-around;
-  position: absolute;
 }
-i{
-  font-size: 5em;
-  color: rgb(47, 41, 116);
-  width: min-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-.magnet-container{
+.menu{
+  height: 60%;
+  width: 60%;
+  border: 1px solid white;
   margin-top: auto;
   margin-bottom: auto;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  text-align: center;
+  position: relative;
 }
-.light-container{
-  margin-top: auto;
-  margin-bottom: auto;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  text-align: center;
-}
-.anti-magnet-container{
-  margin-top: auto;
-  margin-bottom: auto;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  text-align: center;
-}
-.anti-magnet-container>i{
-  transform: rotate(180deg)
-}
-.click-container{
-  margin-top:auto;
-  margin-bottom:auto;
+.circle{
+  background: red;
+  height: 50px;
+  width: 50px;
 }

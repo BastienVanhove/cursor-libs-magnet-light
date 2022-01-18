@@ -101,7 +101,7 @@ class Cursor{
             style.pointerEvents = 'none'
             style.transition = `${this.transitionDuration}ms`
             style.transform = 'scale(1)'
-            style.zIndex = '9999'
+            style.zIndex = '1000'
 
             const transitionStyle : any = this.transitonCursor.style
             transitionStyle.height = "100%"
@@ -170,8 +170,8 @@ class Cursor{
         this.allMagnet = this.body.querySelectorAll('.magnet-hover')
         if(this.allMagnet.length >= 1){
 
-            const SCALE_ENGLOBE = 1.5
-            const OPACITY_HOVER = "0.08"
+            const SCALE_ENGLOBE = 1.75
+            const OPACITY_HOVER = "0.15"
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
@@ -299,8 +299,8 @@ class Cursor{
             const hover = (e : any) =>{
                 this.filterOn()
                 lastLight = e.target
-                const targetStyle = e.target.style
-                targetStyle.zIndex = 9998
+                let targetStyle = e.target.style
+                targetStyle.zIndex = 999
             }
 
             const out = () =>{ 
@@ -310,17 +310,17 @@ class Cursor{
 
             this.lightMode = [hover, out]
 
-            this.allLight.forEach(function(click){
+            this.allLight.forEach(function(light : any){
+                light.style.position = "absolute"
                 if(self.lightMode){
-                    click.addEventListener('mouseover', self.lightMode[0])
-                    click.addEventListener('mouseout', self.lightMode[1])
+                    light.addEventListener('mouseover', self.lightMode[0])
+                    light.addEventListener('mouseout', self.lightMode[1])
                 }
             })
         }
         else{
             this.lightMode = null
         }
-
         this.init()
     }
 }
