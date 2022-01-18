@@ -5,6 +5,7 @@ class Cursor{
 
     private init: Function;
     private cursorEl: HTMLDivElement;
+    private transitonCursor: HTMLDivElement;
     private lightFilter: HTMLDivElement;
     private body: HTMLBodyElement;
     public color: string;
@@ -17,7 +18,7 @@ class Cursor{
     private movement: EventListener;
     private movementStart: Function;
     private movementStop: Function;
-    private squareMode: Function;
+    private initCursor: Function;
     private lastCoor : [number, number];
     private transitionDuration: number;
 
@@ -46,6 +47,7 @@ class Cursor{
         this.body = body
         this.color = baseColor
         this.cursorEl = document.createElement('div') as HTMLDivElement
+        this.transitonCursor = document.createElement('div') as HTMLDivElement
         this.lightFilter = document.createElement('div') as HTMLDivElement
 
         this.height = 15
@@ -59,20 +61,8 @@ class Cursor{
 
             if(!enabledCursor) this.body.style.cursor = 'none'
 
-            this.cursorEl.style.position = 'absolute'
-            this.cursorEl.style.pointerEvents = 'none'
-            this.cursorEl.style.transition = `${this.transitionDuration}ms`
-            this.cursorEl.style.transform = 'scale(1)'
+            this.initCursor()
 
-            this.lightFilter.style.height = "100vh"
-            this.lightFilter.style.width = "100vw"
-            this.lightFilter.style.position = "absolute"
-            this.lightFilter.style.pointerEvents = "none"
-            this.lightFilter.style.background = "black"
-            this.lightFilter.style.opacity = this.baseOpacity
-            this.lightFilter.style.transition = "0.5s"
-
-            this.squareMode()
             this.movementStart()
 
             window.addEventListener('mousedown', this.onClickDown)
@@ -92,13 +82,34 @@ class Cursor{
             this.lightFilter.style.display = "none"
         }
 
-        this.squareMode = () =>{
-            let style : any = this.cursorEl.style
+        this.initCursor = () =>{
+
+            const style : any = this.cursorEl.style
             style.height = `${this.height}px`;
             style.width = `${this.width}px`;
-            style.borderRadius = '50%'
             style.opacity = "0.7"
-            style.background = `${this.color}`
+            style.position = 'absolute'
+            style.pointerEvents = 'none'
+            style.transition = `${this.transitionDuration}ms`
+            style.transform = 'scale(1)'
+
+            const transitionStyle : any = this.transitonCursor.style
+            transitionStyle.height = "100%"
+            transitionStyle.width = "100%"
+            transitionStyle.borderRadius = "50%"
+            transitionStyle.background = `${this.color}`
+            transitionStyle.transition = "300ms"
+            transitionStyle.transform = "scale(1)"
+
+            this.cursorEl.appendChild(this.transitonCursor)
+
+            this.lightFilter.style.height = "100vh"
+            this.lightFilter.style.width = "100vw"
+            this.lightFilter.style.position = "absolute"
+            this.lightFilter.style.pointerEvents = "none"
+            this.lightFilter.style.background = "black"
+            this.lightFilter.style.opacity = this.baseOpacity
+            this.lightFilter.style.transition = "0.5s"
         }
 
         this.lastCoor = [0, 0]
@@ -124,7 +135,7 @@ class Cursor{
 
         //click event
         const exctractScaleValue = () =>{
-            let str = this.cursorEl.style.transform
+            let str = this.transitonCursor.style.transform
             str = str.replace('scale(', '').replace(')', '')
             console.log(str)
             return parseFloat(str)
@@ -132,10 +143,10 @@ class Cursor{
         let scale : number
         this.onClickDown = (e : Event) =>{
             scale = exctractScaleValue()
-            this.cursorEl.style.transform = `scale(${scale * 0.70})`
+            this.transitonCursor.style.transform = `scale(${scale * 0.70})`
         }
         this.onClickUp = (e : Event) =>{
-            this.cursorEl.style.transform = `scale(${scale})`
+            this.transitonCursor.style.transform = `scale(${scale})`
         }
 
         //moovement start stop method
@@ -190,6 +201,7 @@ class Cursor{
                 const domElement = e.target as HTMLElement
                 domElement.addEventListener('mousemove', mousemove)
                 domElement.style.transition = '100ms'
+
                 //find center of Dom Element
                 this.movementStop()
 
@@ -201,7 +213,7 @@ class Cursor{
 
                 const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
 
-                this.cursorEl.style.transform = `scale(${scaleFactor})`
+                this.transitonCursor.style.transform = `scale(${scaleFactor})`
                 this.cursorEl.style.opacity = OPACITY_HOVER
             }
 
@@ -213,7 +225,7 @@ class Cursor{
                 this.movementStart()
 
                 scale = 1
-                this.cursorEl.style.transform = "scale(1)"
+                this.transitonCursor.style.transform = "scale(1)"
                 this.cursorEl.style.opacity = this.baseOpacity
 
             }
@@ -249,12 +261,12 @@ class Cursor{
 
                 const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
 
-                this.cursorEl.style.transform = `scale(${scaleFactor})`
+                this.transitonCursor.style.transform = `scale(${scaleFactor})`
                 this.cursorEl.style.opacity = OPACITY_HOVER
             }
             const out = () =>{
                 scale = 1
-                this.cursorEl.style.transform = "scale(1)"
+                this.transitonCursor.style.transform = "scale(1)"
                 this.cursorEl.style.opacity = this.baseOpacity
             }
 

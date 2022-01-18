@@ -4,12 +4,13 @@ const chessBoard = document.querySelector('.chessBoard')
 const generateCase = (color : string) => {
     let piece = document.createElement('i')
     piece.className = 'fas fa-chess-pawn magnet-hover'
-    piece.style.fontSize = "3.5em"
+    piece.style.fontSize = "2em"
     piece.style.padding = "15px"
     piece.style.color = "grey"
-    piece.style.marginTop = "auto"
-    piece.style.marginBottom = "auto"
-
+    piece.style.display = "flex"
+    piece.style.justifyContent = "space-around"
+    piece.style.flexDirection = "column"
+    piece.style.height = "100%"
 
     let div = document.createElement('div')
     div.style.height = '12.5%'
