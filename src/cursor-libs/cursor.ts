@@ -1,5 +1,5 @@
 const body = document.querySelector("body") as HTMLBodyElement
-const styleColor = "green"
+const styleColor = "white"
 
 class Cursor{
 
@@ -149,6 +149,9 @@ class Cursor{
         const self = this
         this.allMagnet = body.querySelectorAll('.magnet-hover')
         if(this.allMagnet.length >= 1){
+
+            const SCALE_ENGLOBE = 1.5
+            const OPACITY_HOVER = "0.1"
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
@@ -169,11 +172,11 @@ class Cursor{
 
                 const ecart : [number, number] = [coor[0] - clientX, coor[1] - clientY]
 
-                domElement.style.transform = `translate(${-ecart[0] - this.height/2}px, ${-ecart[1] - this.width/2}px)`
+                domElement.style.transform = `translate(${-ecart[0]/ 3}px, ${-ecart[1]/3}px)`
 
                 const newCoor : [number, number] = [
-                    (coor[0] - ecart[0]/1.2) - this.height/2,
-                    (coor[1] - ecart[1]/1.2) - this.width/2
+                    (coor[0] - ecart[0]/2.5) - this.height/2,
+                    (coor[1] - ecart[1]/2.5) - this.width/2
                 ]
 
                 this.cursorEl.style.left = `${newCoor[0]}px`
@@ -183,11 +186,23 @@ class Cursor{
             }
 
             const hover : EventListener = ( e : any ) =>{
+
                 const domElement = e.target as HTMLElement
                 domElement.addEventListener('mousemove', mousemove)
                 domElement.style.transition = '100ms'
                 //find center of Dom Element
                 this.movementStop()
+
+                const cursorB = this.cursorEl.getBoundingClientRect()
+                const cursorValue = (cursorB.height + cursorB.width) / 2
+
+                const elB = e.target.getBoundingClientRect()
+                const elValue = (elB.height + elB.width) / 2
+
+                const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
+
+                this.cursorEl.style.transform = `scale(${scaleFactor})`
+                this.cursorEl.style.opacity = OPACITY_HOVER
             }
 
             const out = (e : any) => {
@@ -196,6 +211,11 @@ class Cursor{
                 domElement.style.transform = `translate(0px, 0px)`
                 //console.log(e)
                 this.movementStart()
+
+                scale = 1
+                this.cursorEl.style.transform = "scale(1)"
+                this.cursorEl.style.opacity = this.baseOpacity
+
             }
 
             this.magnetMode = [
