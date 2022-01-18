@@ -12,7 +12,7 @@
   position: absolute;
 }
 i{
-  font-size: 7em;
+  font-size: 5em;
   color: rgb(128, 27, 27);
   width: min-content;
   margin-left: auto;
@@ -27,7 +27,6 @@ i{
   text-align: center;
 }
 .light-container{
-  background-color: rgb(73, 62, 62);
   margin-top: auto;
   margin-bottom: auto;
   display: flex;
@@ -38,7 +37,6 @@ i{
 .anti-magnet-container{
   margin-top: auto;
   margin-bottom: auto;
-  border: 2px solid white;
   display: flex;
   justify-content: space-around;
   flex-direction: column;

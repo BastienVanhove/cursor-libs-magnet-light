@@ -98,7 +98,7 @@ class Cursor{
             transitionStyle.width = "100%"
             transitionStyle.borderRadius = "50%"
             transitionStyle.background = `${this.color}`
-            transitionStyle.transition = "300ms"
+            transitionStyle.transition = "400ms"
             transitionStyle.transform = "scale(1)"
 
             this.cursorEl.appendChild(this.transitonCursor)
@@ -162,7 +162,7 @@ class Cursor{
         if(this.allMagnet.length >= 1){
 
             const SCALE_ENGLOBE = 1.5
-            const OPACITY_HOVER = "0.1"
+            const OPACITY_HOVER = "0.08"
             
             const mousemove : EventListener = (e : any) =>{
                 const domElement = e.target
@@ -214,7 +214,7 @@ class Cursor{
                 const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
 
                 this.transitonCursor.style.transform = `scale(${scaleFactor})`
-                this.cursorEl.style.opacity = OPACITY_HOVER
+                this.transitonCursor.style.opacity = OPACITY_HOVER
             }
 
             const out = (e : any) => {
@@ -226,7 +226,7 @@ class Cursor{
 
                 scale = 1
                 this.transitonCursor.style.transform = "scale(1)"
-                this.cursorEl.style.opacity = this.baseOpacity
+                this.transitonCursor.style.opacity = this.baseOpacity
 
             }
 
@@ -262,12 +262,12 @@ class Cursor{
                 const scaleFactor = (elValue / cursorValue) + SCALE_ENGLOBE
 
                 this.transitonCursor.style.transform = `scale(${scaleFactor})`
-                this.cursorEl.style.opacity = OPACITY_HOVER
+                this.transitonCursor.style.opacity = OPACITY_HOVER
             }
             const out = () =>{
                 scale = 1
                 this.transitonCursor.style.transform = "scale(1)"
-                this.cursorEl.style.opacity = this.baseOpacity
+                this.transitonCursor.style.opacity = this.baseOpacity
             }
 
             this.clickMode = [hover, out]
