@@ -125,12 +125,12 @@ class Cursor{
             console.log(str)
             return parseFloat(str)
         }
+        let scale : number
         this.onClickDown = (e : Event) =>{
-            const scale = exctractScaleValue()
+            scale = exctractScaleValue()
             this.cursorEl.style.transform = `scale(${scale * 0.70})`
         }
         this.onClickUp = (e : Event) =>{
-            const scale = exctractScaleValue()
             this.cursorEl.style.transform = `scale(${scale})`
         }
 
