@@ -1,4 +1,4 @@
-const styleColor = "#6f49cf"
+const styleColor = "rgb(161, 139, 40)"
 
 class Cursor{
 
