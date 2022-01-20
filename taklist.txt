@@ -1,4 +1,5 @@
 pointer event bug 
+zIndex Bug
 not load when mobile size
 load cursor aniamtion when cursor device load
 
