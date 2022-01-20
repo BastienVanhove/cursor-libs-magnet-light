@@ -296,17 +296,19 @@ class Cursor{
         if(this.allLight.length >= 1){
 
             let lastLight : HTMLElement
+            let zIndex : string
             const hover = (e : any) =>{
                 this.filterOn()
                 lastLight = e.target
                 let targetStyle = e.target.style
-                targetStyle.zIndex = 999
+                zIndex = targetStyle.zIndex
+                targetStyle.zIndex = 9999
                 this.transitonCursor.style.background = "white"
             }
 
             const out = () =>{ 
                 this.filterOff() 
-                if(lastLight) lastLight.style.zIndex = "0"
+                if(lastLight) lastLight.style.zIndex = zIndex
                 this.transitonCursor.style.background = this.color
             }
 

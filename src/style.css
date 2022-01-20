@@ -50,8 +50,8 @@ body{
   z-index: 1000;
 }
 .counter{
-  height: 250px;
-  width: 250px;
+  height: 350px;
+  width: 350px;
   position: absolute;
   border: 5px solid #6f49cf8e;
   border-radius:50px;
@@ -66,4 +66,47 @@ body{
   font-size: 5em;
   text-align: center;
   pointer-events: none;
+}
+
+.burger{
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  z-index: 1000;
+}
+.bar{
+  background-color: #6f49cf8e;
+  pointer-events: none;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  transition: 0.25s;
+
+}
+.bar1{
+  margin-top: 8px;
+  height: 8px;
+  width: 80%;
+}
+.bar2{
+  height: 7px;
+  width: 60%;
+  margin-top: 3px;
+}
+.bar3{
+  margin-top: 3px;
+  height: 8px;
+  width: 80%;
+}
+
+.menu-burger{
+  position: absolute;
+  height: 100%;
+  width: 250px;
+  background-color: rgba(255, 255, 255, 0.137);
+  right: 0;
+  transform: translateX(250px);
+  transition: 0.5s;
 }

@@ -1,3 +1,4 @@
+pointer event bug 
 not load when mobile size
 load cursor aniamtion when cursor device load
 
