@@ -12,32 +12,44 @@ body{
   justify-content: space-around;
   overflow: hidden;
 }
-
-
 .circle{
   margin: 50px;
   background: #6038c60e;
   border: 3px solid #6f49cf8e;
-  height: 70px;
-  width: 70px;
-  border-radius: 25px;
-  
+  height: 60px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  justify-content: space-around;
 }
-.menua{
-
-}
-.menub{
-
-}
-.menuc{
-  
-}
-.menuc{
-  
+.circle i{
+  margin-top:auto;
+  margin-bottom:auto;
+  color: #6f49cf8e;
+  font-size: 1.25em;
+  pointer-events: none;
 }
 #particule-js{
   position: absolute;
   height: 100%;
   width: 100%;
   z-index: 1000;
+}
+.counter{
+  height: 250px;
+  width: 250px;
+  position: absolute;
+  border: 5px solid #6f49cf8e;
+  border-radius:50px;
+  margin-top:250px;
+  display: flex;
+  justify-content:space-around;
+  flex-direction:column;
+}
+.counter>p{
+  user-select: none;
+  color: #6f49cf8e;
+  font-size: 5em;
+  text-align: center;
+  pointer-events: none;
 }

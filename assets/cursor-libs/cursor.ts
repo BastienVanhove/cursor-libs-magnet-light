@@ -327,6 +327,6 @@ class Cursor{
     }
 }
 
-const cursorTest = new Cursor(styleColor, false, false)
+const cursorTest = new Cursor(styleColor, true, false)
 
 // arguments : / color?:string / cursor visible?:boolean / tickReduction?:boolean  / sound ?:boolean 
